@@ -1,6 +1,7 @@
 package br.com.rodrigogmartins.restwithspringboot;
 
 import br.com.rodrigogmartins.restwithspringboot.classes.Calculator;
+import br.com.rodrigogmartins.restwithspringboot.classes.NumberConverter;
 import br.com.rodrigogmartins.restwithspringboot.exceptions.InvalidNumericValueFormatException;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,8 +15,8 @@ public class MathController {
         @PathVariable(value = "secondNumber") String secondNumber
     ) throws InvalidNumericValueFormatException {
         return Calculator.sum(
-                Calculator.convertNumericToDouble(firstNumber),
-                Calculator.convertNumericToDouble(secondNumber)
+                NumberConverter.convertNumericToDouble(firstNumber),
+                NumberConverter.convertNumericToDouble(secondNumber)
         );
     }
 
@@ -25,8 +26,8 @@ public class MathController {
             @PathVariable(value = "secondNumber") String secondNumber
     ) throws InvalidNumericValueFormatException {
         return Calculator.subtract(
-                Calculator.convertNumericToDouble(firstNumber),
-                Calculator.convertNumericToDouble(secondNumber)
+                NumberConverter.convertNumericToDouble(firstNumber),
+                NumberConverter.convertNumericToDouble(secondNumber)
         );
     }
 
@@ -36,8 +37,8 @@ public class MathController {
             @PathVariable(value = "secondNumber") String secondNumber
     ) throws InvalidNumericValueFormatException {
         return Calculator.multiply(
-                Calculator.convertNumericToDouble(firstNumber),
-                Calculator.convertNumericToDouble(secondNumber)
+                NumberConverter.convertNumericToDouble(firstNumber),
+                NumberConverter.convertNumericToDouble(secondNumber)
         );
     }
 
@@ -47,15 +48,15 @@ public class MathController {
             @PathVariable(value = "secondNumber") String secondNumber
     ) throws InvalidNumericValueFormatException {
         return Calculator.divide(
-                Calculator.convertNumericToDouble(firstNumber),
-                Calculator.convertNumericToDouble(secondNumber)
+                NumberConverter.convertNumericToDouble(firstNumber),
+                NumberConverter.convertNumericToDouble(secondNumber)
         );
     }
 
 
     @RequestMapping(value = "squareRoot/{number}", method = RequestMethod.GET)
     public Double squareRoot(@PathVariable(value = "number") String number) throws InvalidNumericValueFormatException {
-        return Calculator.squareRoot(Calculator.convertNumericToDouble(number));
+        return Calculator.squareRoot(NumberConverter.convertNumericToDouble(number));
     }
 
     @RequestMapping(value = "average/{firstNumber}/{secondNumber}", method = RequestMethod.GET)
@@ -64,8 +65,8 @@ public class MathController {
             @PathVariable(value = "secondNumber") String secondNumber
     ) throws InvalidNumericValueFormatException {
         double[] numbers = {
-                Calculator.convertNumericToDouble(firstNumber),
-                Calculator.convertNumericToDouble(secondNumber)
+                NumberConverter.convertNumericToDouble(firstNumber),
+                NumberConverter.convertNumericToDouble(secondNumber)
         };
 
         return Calculator.average(numbers);
