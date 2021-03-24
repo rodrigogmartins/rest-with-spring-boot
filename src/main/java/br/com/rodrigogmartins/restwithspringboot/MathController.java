@@ -1,33 +1,74 @@
 package br.com.rodrigogmartins.restwithspringboot;
 
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import br.com.rodrigogmartins.restwithspringboot.classes.Calculator;
+import br.com.rodrigogmartins.restwithspringboot.exceptions.InvalidNumericValueFormatException;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
 public class MathController {
 
-    @RequestMapping(value = "sum/numberOne/numberTwo", method = RequestMethod.GET)
-    public Double sum(
-        @PathVariable(value = "numberOne") String numberOne,
-        @PathVariable(value = "numberTwo") String numberTwo
-    ) throws Exception {
-        if (!isNumeric(numberOne) || !isNumeric(numberTwo)) {
-            throw new Exception();
-        }
-
-        Double sum = convertToDouble(numberOne) + convertToDouble(numberTwo);
-
-        return sum;
+    @RequestMapping(value = "addition/{firstNumber}/{secondNumber}", method = RequestMethod.GET)
+    public Double addition(
+        @PathVariable(value = "firstNumber") String firstNumber,
+        @PathVariable(value = "secondNumber") String secondNumber
+    ) throws InvalidNumericValueFormatException {
+        return Calculator.sum(
+                Calculator.convertNumericToDouble(firstNumber),
+                Calculator.convertNumericToDouble(secondNumber)
+        );
     }
 
-    private Double convertToDouble(String number) {
-        return Double.parseDouble(number);
+    @RequestMapping(value = "subtraction/{firstNumber}/{secondNumber}", method = RequestMethod.GET)
+    public Double subtraction(
+            @PathVariable(value = "firstNumber") String firstNumber,
+            @PathVariable(value = "secondNumber") String secondNumber
+    ) throws InvalidNumericValueFormatException {
+        return Calculator.subtract(
+                Calculator.convertNumericToDouble(firstNumber),
+                Calculator.convertNumericToDouble(secondNumber)
+        );
     }
 
-    private boolean isNumeric(String number) {
-        return false;
+    @RequestMapping(value = "multiplication/{firstNumber}/{secondNumber}", method = RequestMethod.GET)
+    public Double multiplication(
+            @PathVariable(value = "firstNumber") String firstNumber,
+            @PathVariable(value = "secondNumber") String secondNumber
+    ) throws InvalidNumericValueFormatException {
+        return Calculator.multiply(
+                Calculator.convertNumericToDouble(firstNumber),
+                Calculator.convertNumericToDouble(secondNumber)
+        );
     }
+
+    @RequestMapping(value = "division/{firstNumber}/{secondNumber}", method = RequestMethod.GET)
+    public Double division(
+            @PathVariable(value = "firstNumber") String firstNumber,
+            @PathVariable(value = "secondNumber") String secondNumber
+    ) throws InvalidNumericValueFormatException {
+        return Calculator.divide(
+                Calculator.convertNumericToDouble(firstNumber),
+                Calculator.convertNumericToDouble(secondNumber)
+        );
+    }
+
+
+    @RequestMapping(value = "squareRoot/{number}", method = RequestMethod.GET)
+    public Double squareRoot(@PathVariable(value = "number") String number) throws InvalidNumericValueFormatException {
+        return Calculator.squareRoot(Calculator.convertNumericToDouble(number));
+    }
+
+    @RequestMapping(value = "average/{firstNumber}/{secondNumber}", method = RequestMethod.GET)
+    public Double average(
+            @PathVariable(value = "firstNumber") String firstNumber,
+            @PathVariable(value = "secondNumber") String secondNumber
+    ) throws InvalidNumericValueFormatException {
+        double[] numbers = {
+                Calculator.convertNumericToDouble(firstNumber),
+                Calculator.convertNumericToDouble(secondNumber)
+        };
+
+        return Calculator.average(numbers);
+    }
+
 }
