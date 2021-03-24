@@ -1,4 +1,4 @@
-package br.com.rodrigogmartins.restwithspringboot;
+package br.com.rodrigogmartins.restwithspringboot.controllers;
 
 import br.com.rodrigogmartins.restwithspringboot.classes.Calculator;
 import br.com.rodrigogmartins.restwithspringboot.classes.NumberConverter;
