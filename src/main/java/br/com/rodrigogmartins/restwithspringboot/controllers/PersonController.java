@@ -1,75 +1,61 @@
 package br.com.rodrigogmartins.restwithspringboot.controllers;
 
-import br.com.rodrigogmartins.restwithspringboot.classes.Calculator;
-import br.com.rodrigogmartins.restwithspringboot.classes.NumberConverter;
-import br.com.rodrigogmartins.restwithspringboot.exceptions.InvalidNumericValueFormatException;
+import br.com.rodrigogmartins.restwithspringboot.models.Person;
+import br.com.rodrigogmartins.restwithspringboot.services.PersonService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
-public class MathController {
+@RequestMapping("/person")
+public class PersonController {
 
-    @RequestMapping(value = "addition/{firstNumber}/{secondNumber}", method = RequestMethod.GET)
-    public Double addition(
-        @PathVariable(value = "firstNumber") String firstNumber,
-        @PathVariable(value = "secondNumber") String secondNumber
-    ) throws InvalidNumericValueFormatException {
-        return Calculator.sum(
-                NumberConverter.convertNumericToDouble(firstNumber),
-                NumberConverter.convertNumericToDouble(secondNumber)
-        );
+    @Autowired
+    private PersonService services;
+
+    @RequestMapping(
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public List<Person> findAll() {
+        return services.findAll();
     }
 
-    @RequestMapping(value = "subtraction/{firstNumber}/{secondNumber}", method = RequestMethod.GET)
-    public Double subtraction(
-            @PathVariable(value = "firstNumber") String firstNumber,
-            @PathVariable(value = "secondNumber") String secondNumber
-    ) throws InvalidNumericValueFormatException {
-        return Calculator.subtract(
-                NumberConverter.convertNumericToDouble(firstNumber),
-                NumberConverter.convertNumericToDouble(secondNumber)
-        );
+    @RequestMapping(
+            value = "/{id}",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public Person findById(@PathVariable(value = "id") String id) {
+        return services.findById(id);
     }
 
-    @RequestMapping(value = "multiplication/{firstNumber}/{secondNumber}", method = RequestMethod.GET)
-    public Double multiplication(
-            @PathVariable(value = "firstNumber") String firstNumber,
-            @PathVariable(value = "secondNumber") String secondNumber
-    ) throws InvalidNumericValueFormatException {
-        return Calculator.multiply(
-                NumberConverter.convertNumericToDouble(firstNumber),
-                NumberConverter.convertNumericToDouble(secondNumber)
-        );
+    @RequestMapping(
+            method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE
+    )
+    public Person create(@RequestBody Person person) {
+        return services.create(person);
     }
 
-    @RequestMapping(value = "division/{firstNumber}/{secondNumber}", method = RequestMethod.GET)
-    public Double division(
-            @PathVariable(value = "firstNumber") String firstNumber,
-            @PathVariable(value = "secondNumber") String secondNumber
-    ) throws InvalidNumericValueFormatException {
-        return Calculator.divide(
-                NumberConverter.convertNumericToDouble(firstNumber),
-                NumberConverter.convertNumericToDouble(secondNumber)
-        );
+    @RequestMapping(
+            method = RequestMethod.PUT,
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE
+    )
+    public Person update(@RequestBody Person person) {
+        return services.update(person);
     }
 
-
-    @RequestMapping(value = "squareRoot/{number}", method = RequestMethod.GET)
-    public Double squareRoot(@PathVariable(value = "number") String number) throws InvalidNumericValueFormatException {
-        return Calculator.squareRoot(NumberConverter.convertNumericToDouble(number));
+    @RequestMapping(
+            value = "/{id}",
+            method = RequestMethod.DELETE
+    )
+    public void remove(@PathVariable(value = "id") String id) {
+        services.remove(id);
     }
-
-    @RequestMapping(value = "average/{firstNumber}/{secondNumber}", method = RequestMethod.GET)
-    public Double average(
-            @PathVariable(value = "firstNumber") String firstNumber,
-            @PathVariable(value = "secondNumber") String secondNumber
-    ) throws InvalidNumericValueFormatException {
-        double[] numbers = {
-                NumberConverter.convertNumericToDouble(firstNumber),
-                NumberConverter.convertNumericToDouble(secondNumber)
-        };
-
-        return Calculator.average(numbers);
-    }
-
 }
