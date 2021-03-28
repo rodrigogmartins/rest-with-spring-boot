@@ -1,23 +1,32 @@
 package br.com.rodrigogmartins.restwithspringboot.models;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class Person implements Serializable {
+@Entity
+@Table(name="person")
+public class PersonEntity implements Serializable {
 
+    @Id
     private String id;
+
+    @Column(name="first_name", nullable = false, length = 50)
     private String firstName;
+
+    @Column(name="last_name", nullable = false)
     private String lastName;
+
+    @Column(nullable = false)
     private String email;
+
+    @Column(nullable = false)
     private byte age;
 
-    public Person(String id, String firstName, String lastName, String email, byte age) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.age = age;
-    }
+    public PersonEntity() { }
 
     public String getId() {
         return id;
@@ -63,8 +72,8 @@ public class Person implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Person person = (Person) o;
-        return age == person.age && id.equals(person.id) && firstName.equals(person.firstName) && lastName.equals(person.lastName) && email.equals(person.email);
+        PersonEntity personEntity = (PersonEntity) o;
+        return age == personEntity.age && id.equals(personEntity.id) && firstName.equals(personEntity.firstName) && lastName.equals(personEntity.lastName) && email.equals(personEntity.email);
     }
 
     @Override
