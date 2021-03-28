@@ -1,4 +1,4 @@
-package br.com.rodrigogmartins.restwithspringboot.models;
+package br.com.rodrigogmartins.restwithspringboot.data.models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

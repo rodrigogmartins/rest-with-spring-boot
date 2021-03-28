@@ -1,6 +1,6 @@
 package br.com.rodrigogmartins.restwithspringboot.builders;
 
-import br.com.rodrigogmartins.restwithspringboot.models.Person;
+import br.com.rodrigogmartins.restwithspringboot.data.models.Person;
 
 public class PersonBuilder {
 
