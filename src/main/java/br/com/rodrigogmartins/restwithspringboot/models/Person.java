@@ -9,7 +9,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name="person")
-public class PersonEntity implements Serializable {
+public class Person implements Serializable {
 
     @Id
     private String id;
@@ -20,13 +20,13 @@ public class PersonEntity implements Serializable {
     @Column(name="last_name", nullable = false)
     private String lastName;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String email;
 
     @Column(nullable = false)
     private byte age;
 
-    public PersonEntity() { }
+    public Person() {  }
 
     public String getId() {
         return id;
@@ -72,8 +72,8 @@ public class PersonEntity implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        PersonEntity personEntity = (PersonEntity) o;
-        return age == personEntity.age && id.equals(personEntity.id) && firstName.equals(personEntity.firstName) && lastName.equals(personEntity.lastName) && email.equals(personEntity.email);
+        Person person = (Person) o;
+        return age == person.age && id.equals(person.id) && firstName.equals(person.firstName) && lastName.equals(person.lastName) && email.equals(person.email);
     }
 
     @Override

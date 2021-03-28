@@ -13,7 +13,14 @@ public class PersonBuilder {
     public PersonBuilder() { }
 
     public Person build() {
-        return new Person(id, firstName, lastName, email, age);
+        Person person = new Person();
+        person.setId(this.id);
+        person.setFirstName(this.firstName);
+        person.setLastName(this.lastName);
+        person.setEmail(this.email);
+        person.setAge(this.age);
+
+        return person;
     }
 
     public PersonBuilder id(String id)  {
