@@ -1,63 +1,50 @@
 package br.com.rodrigogmartins.restwithspringboot.services;
 
-import br.com.rodrigogmartins.restwithspringboot.builders.PersonBuilder;
 import br.com.rodrigogmartins.restwithspringboot.classes.IdGenerator;
+import br.com.rodrigogmartins.restwithspringboot.exceptions.ResourceNotFoundException;
 import br.com.rodrigogmartins.restwithspringboot.models.Person;
+import br.com.rodrigogmartins.restwithspringboot.repositories.PersonRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class PersonService {
 
+    @Autowired
+    PersonRepository repository;
+
     public Person create(Person person) {
         person.setId(IdGenerator.generateId());
 
-        return person;
+        return repository.save(person);
     }
 
     public Person update(Person person) {
-        person.setEmail("outroemail@gmail.com");
+        Person entity = this.findById(person.getId());
+        entity.setFirstName(person.getFirstName());
+        entity.setLastName(person.getLastName());
+        entity.setEmail(person.getEmail());
+        entity.setAge(person.getAge());
 
-        return person;
+        return repository.save(person);
     }
 
     public void remove(String id) {
+        Person person = this.findById(id);
+
+        repository.delete(person);
     }
 
     public Person findById(String id) {
-        Person person = new PersonBuilder()
-                            .id(IdGenerator.generateId())
-                            .firstName("Rodrigo")
-                            .lastName("Gaspar Martins")
-                            .email("rodrigo@gmail.com")
-                            .age(20)
-                            .build();
-
-        return person;
+        return repository
+                .findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("No records found for this id"));
     }
 
     public List<Person> findAll() {
-        List<Person> persons = new ArrayList<Person>();
-
-        for (int i = 0; i < 8; i++) {
-            Person person = mockPerson(i);
-            persons.add(person);
-        }
-
-        return persons;
+        return repository.findAll();
     }
 
-    private Person mockPerson(int i) {
-        Person person = new PersonBuilder()
-                .id(IdGenerator.generateId())
-                .firstName(i + " - Rodrigo")
-                .lastName("Gaspar Martins")
-                .email("rodrigo@gmail.com")
-                .age(20)
-                .build();
-
-        return person;
-    }
 }
