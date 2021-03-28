@@ -1,7 +1,7 @@
 package br.com.rodrigogmartins.restwithspringboot.controllers;
 
-import br.com.rodrigogmartins.restwithspringboot.models.Person;
 import br.com.rodrigogmartins.restwithspringboot.services.PersonService;
+import br.com.rodrigogmartins.restwithspringboot.valueobjects.PersonVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,22 +17,22 @@ public class PersonController {
     private PersonService services;
 
     @GetMapping
-    public List<Person> findAll() {
+    public List<PersonVO> findAll() {
         return services.findAll();
     }
 
     @GetMapping("/{id}")
-    public Person findById(@PathVariable(value = "id") String id) {
+    public PersonVO findById(@PathVariable(value = "id") String id) {
         return services.findById(id);
     }
 
     @PostMapping
-    public Person create(@RequestBody Person person) {
+    public PersonVO create(@RequestBody PersonVO person) {
         return services.create(person);
     }
 
     @PutMapping
-    public Person update(@RequestBody Person person) {
+    public PersonVO update(@RequestBody PersonVO person) {
         return services.update(person);
     }
 
